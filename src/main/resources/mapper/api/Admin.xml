@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Admin">
-	<select id="getAdminInfo" parameterType="String" resultType="com.prac.model.AdminModel">
+	<select id="getAdminInfo" parameterType="hashMap" resultType="com.prac.model.AdminModel">
 		SELECT
-			*
-		FROM user_info
+			user_id
+			, type
+			, user_name
+			, user_phone_num
+			, DATE_FORMAT(create_dt, '%Y-%m-%d %H:%i') AS create_dt
+		FROM 
+			user_info
 		WHERE
-			user_name LIKE CONCAT('%', #{user_name}, '%')
+			delete_dt IS NULL
+	</select>
+	
+	<select id="checkAdminId" parameterType="String" resultType="Integer">
+		SELECT
+			COUNT(admin_id)
+		FROM
+			admin_info
+		WHERE 
+			admin_id = #{admin_id}
+			AND delete_dt IS NULL
 	</select>
 </mapper>

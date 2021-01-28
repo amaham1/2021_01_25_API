@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 
 import com.prac.model.AdminModel;
@@ -18,12 +19,21 @@ public class AdminDao {
 		@Autowired
 	    SqlSessionTemplate SqlSessionTemplate;
 		
+		public boolean checkAdminId(String admin_id) throws Exception {
+			logger.info("AdminDAO - checkAdminId 실행됨 " + admin_id);
+			
+			return (int) SqlSessionTemplate.selectOne("checkAdminId", admin_id) > 0;
+		}
+		
 		public boolean checkPassword(Map<String, Object> param) throws Exception {
+			logger.info("AdminDAO - checkPasswordcheckPassword 실행됨 " + param);
+			
 			return true;
 		}
 		
 		public List<AdminModel> getAdminInfo(Map<String, Object> param) throws Exception {
-			logger.info("getAdminInfo 실행됨 " + param);
+			logger.info("AdminDAO - getAdminInfo 실행됨 " + param);
+			
 			return  SqlSessionTemplate.selectList("getAdminInfo", param);
 		}
  }

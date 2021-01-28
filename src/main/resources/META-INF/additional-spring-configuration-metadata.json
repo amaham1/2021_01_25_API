@@ -1,5 +1,22 @@
-{"properties": [{
-  "name": "spring.datasource.jdbc-url",
-  "type": "java.lang.String",
-  "description": "A description for 'spring.datasource.jdbc-url'"
-}]}
+{"properties": [
+  {
+    "name": "spring.datasource.jdbc-url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.jdbc-url'"
+  },
+  {
+    "name": "JWT.SECRET",
+    "type": "java.lang.String",
+    "description": "A description for 'JWT.SECRET'"
+  },
+  {
+    "name": "JWT.SECRET",
+    "type": "java.lang.String",
+    "description": "A description for 'JWT.SECRET'"
+  },
+  {
+    "name": "JWT.SECRET",
+    "type": "java.lang.String",
+    "description": "A description for 'JWT.SECRET'"
+  }
+]}

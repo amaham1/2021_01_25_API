@@ -8,9 +8,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AdminModel {
+public class UserModel {
 	
-	private String admin_id;
-	private String admin_pwd;
+	private String user_id;
+	private String user_name;
+	private String user_phone_num;
 	private String create_dt;
+	
+	private String user, password, token;
+
 }

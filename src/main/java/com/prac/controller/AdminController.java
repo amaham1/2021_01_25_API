@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.prac.error.CustomException;
+import com.prac.error.ErrorTypeEnum;
 import com.prac.model.AdminModel;
 import com.prac.service.AdminService;
-import com.google.common.collect.Maps;
 
 
 @RestController
@@ -25,11 +26,15 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminService;
-		
+
 	@PostMapping("/login")
-	public AdminModel adminLogin( @RequestBody AdminModel adminModel ) throws Exception {
-		logger.info("/login 실행됨.");
-		return adminModel;
+	public Map<String, Object> adminLogin( @RequestBody AdminModel login ) throws Exception {
+		logger.info("/login 실행됨 " + login.getAdmin_id());
+		if(login.getAdmin_id() == null)
+		{
+			throw new CustomException(ErrorTypeEnum.missing_parameter);
+		}
+		return adminService.adminLogin(login);
 	}
 	
 	@GetMapping("/info")
@@ -40,11 +45,16 @@ public class AdminController {
 			) throws Exception {
 		logger.info("/info 실행됨.");
 		
-		Map<String, Object> param = Maps.newHashMap();
-		param.put("user_name", user_name);
+		Map<String, Object> param = Map.of(
+				"wantColumn", "user_id",
+				"wantColumn2", "type",
+				"type", 3
+				);
 		
 		List<AdminModel> adminModel = adminService.getAdminInfo(param);
+
 		return adminModel;
 	}
+	
 	
 }
