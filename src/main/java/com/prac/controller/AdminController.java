@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,14 +27,18 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminService;
-
+	
 	@PostMapping("/login")
 	public Map<String, Object> adminLogin( @RequestBody AdminModel login ) throws Exception {
 		logger.info("/login 실행됨 " + login.getAdmin_id());
-		if(login.getAdmin_id() == null)
-		{
-			throw new CustomException(ErrorTypeEnum.missing_parameter);
-		}
+		
+		String admin_id = login.getAdmin_id();
+		String admin_pwd = login.getAdmin_pwd();
+		if (admin_id == null)
+		{	throw new CustomException(ErrorTypeEnum.missing_parameter);	} 
+		else if (admin_pwd == null)
+		{	throw new CustomException(ErrorTypeEnum.missing_parameter);	}
+		
 		return adminService.adminLogin(login);
 	}
 	

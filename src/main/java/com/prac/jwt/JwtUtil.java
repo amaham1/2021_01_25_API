@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
@@ -32,12 +31,11 @@ public class JwtUtil {
 	
 	public String getJwtForAdmin(String admin_id) {
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList("ROLE_USER");
+				.commaSeparatedStringToAuthorityList("ROLE_Admin");
 		Claims claim = Jwts.claims();
 		claim.put("type", "Admin");
-		claim.put("authorities", grantedAuthorities.stream()
-				.map(GrantedAuthority::getAuthority)
-				.collect(Collectors.toList()));
+		claim.put("authorities", grantedAuthorities.stream()	.map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+		
 		String token = Jwts
 				.builder()
 				.setSubject(admin_id)

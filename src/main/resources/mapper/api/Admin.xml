@@ -23,4 +23,14 @@
 			admin_id = #{admin_id}
 			AND delete_dt IS NULL
 	</select>
+	
+	<select id="getAdminPassword" parameterType="String" resultType="String">
+		SELECT
+			admin_pwd
+		FROM
+			admin_info
+		WHERE 
+			admin_id = #{admin_id}
+			AND delete_dt IS NULL
+	</select>
 </mapper>
