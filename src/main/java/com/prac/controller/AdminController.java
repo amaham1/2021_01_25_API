@@ -29,22 +29,21 @@ public class AdminController {
 	AdminService adminService;
 	
 	@PostMapping("/login")
-	public Map<String, Object> adminLogin( @RequestBody AdminModel login ) throws Exception {
-		logger.info("/login 실행됨 " + login.getAdmin_id());
+	public Map<String, Object> adminLogin( @RequestBody AdminModel adminModel ) throws Exception {
+		logger.info("/admin/login 실행됨 " + adminModel.getAdmin_id());
 		
-		String admin_id = login.getAdmin_id();
-		String admin_pwd = login.getAdmin_pwd();
+		String admin_id = adminModel.getAdmin_id();
+		String admin_pwd = adminModel.getAdmin_pwd();
 		if (admin_id == null)
 		{	throw new CustomException(ErrorTypeEnum.missing_parameter);	} 
 		else if (admin_pwd == null)
 		{	throw new CustomException(ErrorTypeEnum.missing_parameter);	}
 		
-		return adminService.adminLogin(login);
+		return adminService.adminLogin(adminModel);
 	}
 	
 	@GetMapping("/info")
 	public List<AdminModel> adminInfo( 
-			@RequestParam(value="num") String num,
 			@RequestParam(value="user_name") String user_name,
 			@RequestParam(value="adminName") String adminName
 			) throws Exception {

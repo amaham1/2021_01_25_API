@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.prac.model.AdminModel;
 
-@Service("AdminDao")
+@Repository("AdminDao")
 public class AdminDao {
 	private static final Logger logger = LoggerFactory.getLogger(AdminDao.class);
 	

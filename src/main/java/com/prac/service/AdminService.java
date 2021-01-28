@@ -33,7 +33,7 @@ public class AdminService {
 			String first_admin_pwd = adminModel.getAdmin_pwd();
 			String second_admin_pwd = adminDao.getAdminPassword(admin_id);
 
-			//Admin 계정 체크
+			//Admin 계정 유효성 체크
 			boolean adminIdCheck = adminDao.checkAdminId(admin_id);
 			boolean adminPwdCheck =  passwordEncoder.comparePassWord(first_admin_pwd, second_admin_pwd);
 			if (adminIdCheck == false) 

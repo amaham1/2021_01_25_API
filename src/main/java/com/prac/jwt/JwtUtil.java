@@ -48,6 +48,25 @@ public class JwtUtil {
 		return token;
 	}
 	
+	public String getJwtForUser(String user_id) {
+		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+				.commaSeparatedStringToAuthorityList("ROLE_user");
+		Claims claim = Jwts.claims();
+		claim.put("type", "User");
+		claim.put("authorities", grantedAuthorities.stream()	.map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+		
+		String token = Jwts
+				.builder()
+				.setSubject(user_id)
+				.setClaims(claim)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.signWith(SignatureAlgorithm.HS512,	SECRET.getBytes())
+				.compact();
+		
+		return token;
+	}
+	
 	
 
 }

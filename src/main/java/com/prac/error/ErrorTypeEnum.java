@@ -7,7 +7,9 @@ public enum ErrorTypeEnum {
 
 	account_is_invalid(1001, "계정이 존재하지 않거나, 입력된 정보가 잘못되었습니다."),
 	
-	missing_parameter(2001, "필수 파라미터가 누락되었습니다.");
+	missing_parameter(2001, "필수 파라미터가 누락되었습니다."),
+	
+	missing_token(3001, "잘못된 토큰입니다.");
 
 	public int errorCode;
 	public String message;

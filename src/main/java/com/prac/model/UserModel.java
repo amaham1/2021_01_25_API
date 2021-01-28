@@ -10,11 +10,9 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserModel {
 	
-	private String user_id;
-	private String user_name;
-	private String user_phone_num;
-	private String create_dt;
-	
-	private String user, password, token;
-
+	private String user_id,
+						user_pwd,
+						user_name,
+						user_phone_num,
+						create_dt;
 }
