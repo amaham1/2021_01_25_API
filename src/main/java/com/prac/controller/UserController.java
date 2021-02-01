@@ -44,20 +44,16 @@ public class UserController {
 	@GetMapping("/info")
 	public List<UserModel> getUserInfo(
 			@RequestParam(value = "user_name", required = true) String user_name,
-			@RequestParam(value = "user_phone_num", required = false) String user_phone_num) throws Exception
+			@RequestParam(value = "user_phone_num", required = false , defaultValue = "") String user_phone_num) throws Exception
 	{	logger.info("/user/info 실행됨 ");
 	
 		if (user_name == null)
 		{	throw new CustomException(ErrorTypeEnum.missing_parameter); }
 		
-		/*Map<String, Object> param = Map.of(
-				"user_name", user_name,
-				"user_phone_num", user_phone_num
-		);*/
-		Map<String, Object> param = Maps.newHashMap();
-		
-		param.put("user_name", user_name);
-		param.put("user_phone_num", user_phone_num);
+		Map<String, Object> param = Map.of(
+				"user_name", user_name, "user_phone_num", user_phone_num
+		);
+	
 		List<UserModel> userModel = userService.getUserInfo(param);
 		return userModel;
 	}

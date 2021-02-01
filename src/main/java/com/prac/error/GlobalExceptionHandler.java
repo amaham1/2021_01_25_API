@@ -46,7 +46,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers,HttpStatus status, WebRequest request) {
 		
 		BaseModel res = new BaseModel();
-		res.setResultCode2("필수파라미터가 누락되었습니다");
+		res.setDescription("필수파라미터가 누락되었습니다");
 		
         return new ResponseEntity<>(res, status);
 	}

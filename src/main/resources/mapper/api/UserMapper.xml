@@ -12,6 +12,9 @@
 			user_info
 		WHERE
 			delete_dt IS NULL
+			<if test="user_phone_num != null and user_phone_num != '' ">
+			AND user_phone_num LIKE CONCAT('%', #{user_phone_num}, '%')
+			</if>
 	</select>
 	
 	<select id="checkUserId" parameterType="String" resultType="Integer">

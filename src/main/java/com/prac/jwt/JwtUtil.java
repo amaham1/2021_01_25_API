@@ -66,7 +66,4 @@ public class JwtUtil  {
 		
 		return token;
 	}
-	
-	
-
 }

@@ -23,13 +23,12 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final String HEADER = "Authorization";
-	private final String PREFIX = "T ";
 	private final String SECRET = "mySecretKey";
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 		try {
-			if (checkJWToken(request, response)) {
+			if (checkJWToken(request)) {
 				Claims claims = validateToken(request);
 				if (claims.get("authorities") != null) {
 					setAuthentication(claims);
@@ -40,12 +39,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				SecurityContextHolder.clearContext();
 			}
 			chain.doFilter(request, response);
-		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
-			e.printStackTrace();
+		} catch (ExpiredJwtException e ) {
+			logger.info("Expired Token");
+		} catch (UnsupportedJwtException | MalformedJwtException e) {
+			logger.info(e.getMessage());
 		}
 	}	
+	
 	//토큰 존재 확인
-	private boolean checkJWToken(HttpServletRequest request, HttpServletResponse res) {
+	private boolean checkJWToken(HttpServletRequest request) {
 		String authenticationHeader = request.getHeader(HEADER);
 		if (authenticationHeader == null)
 			return false;
@@ -53,12 +55,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 	
 	//존재하는 경우 해독 및 유효성을 검사
-	private Claims validateToken(HttpServletRequest request) {
-		String jwtToken = request.getHeader(HEADER);
-		return getAllClaimsFromToken(jwtToken);
+	private Claims validateToken(HttpServletRequest request) throws ExpiredJwtException {
+		String getHeader = request.getHeader(HEADER);
+		return getAllClaimsFromToken(getHeader);
 	}
 	
-	 private Claims getAllClaimsFromToken(String token) {
+	 private Claims getAllClaimsFromToken(String token) throws ExpiredJwtException{
 	        return Jwts.parser()
 	                .setSigningKey(SECRET.getBytes())
 	                .parseClaimsJws(token)

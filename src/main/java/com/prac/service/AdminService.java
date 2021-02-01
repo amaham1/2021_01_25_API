@@ -43,9 +43,9 @@ public class AdminService {
 			
 			//토큰 생성
 			String token = jwtUtil.getJwtForAdmin(admin_id);
-			String type =jwtUtil.getTypeFromToken(token);			
+			//String type =jwtUtil.getTypeFromToken(token);			
 			Map<String, Object> param = Map.of(
-					"token", token,  "type", type
+					"token", token  //"type", type
 			);
 			
 			return param;

@@ -13,5 +13,4 @@ public class BaseModel {
 	private int resultCode;
 	private String description;
 	private String res;
-	private String resultCode2;
 }
