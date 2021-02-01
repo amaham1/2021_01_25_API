@@ -10,8 +10,8 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AdminModel {
 	
-	private String admin_id;
-	private String admin_pwd;
-	private String admin_name;
-	private String create_dt;
+	private String admin_id,
+						admin_pwd,
+						admin_name,
+						create_dt;
 }

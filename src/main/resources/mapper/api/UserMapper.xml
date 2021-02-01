@@ -4,7 +4,7 @@
 	<select id="getUserInfo" parameterType="hashMap" resultType="com.prac.model.UserModel">
 		SELECT
 			user_id
-			, type
+			, user_type
 			, user_name
 			, user_phone_num
 			, DATE_FORMAT(create_dt, '%Y-%m-%d %H:%i') AS create_dt

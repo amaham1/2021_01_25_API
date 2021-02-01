@@ -37,21 +37,22 @@ public class AdminService {
 			boolean adminIdCheck = adminDao.checkAdminId(admin_id);
 			boolean adminPwdCheck =  passwordEncoder.comparePassWord(first_admin_pwd, second_admin_pwd);
 			if (adminIdCheck == false) 
-			{	throw new CustomException(ErrorTypeEnum.account_is_invalid, null);	} 
+			{	throw new CustomException(ErrorTypeEnum.account_is_invalid);	} 
 			else if (adminPwdCheck == false)
-			{	throw new CustomException(ErrorTypeEnum.account_is_invalid, null);	} 
+			{	throw new CustomException(ErrorTypeEnum.account_is_invalid);	} 
 			
 			//토큰 생성
 			String token = jwtUtil.getJwtForAdmin(admin_id);
-			String type =jwtUtil.getTypeFromToken(token);
+			String type =jwtUtil.getTypeFromToken(token);			
 			Map<String, Object> param = Map.of(
-					"token", token, "type" , type
+					"token", token,  "type", type
 			);
 			
 			return param;
 		}
 		
 		public List<AdminModel> getAdminInfo(Map<String, Object> param) throws Exception {
+			
 			List<AdminModel> adminInfo = adminDao.getAdminInfo(param);
 			return adminInfo;
 		}

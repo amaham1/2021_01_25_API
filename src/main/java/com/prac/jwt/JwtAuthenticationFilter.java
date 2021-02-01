@@ -14,9 +14,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.prac.error.CustomException;
-import com.prac.error.ErrorTypeEnum;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -25,36 +22,58 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	public static final String HEADER = "Authorization";
+	private final String HEADER = "Authorization";
+	private final String PREFIX = "T ";
 	private final String SECRET = "mySecretKey";
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 		try {
-			if (request.getHeader(HEADER) != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+			if (checkJWToken(request, response)) {
 				Claims claims = validateToken(request);
-				if (claims.get("authorities") != null ) {
-					List<String> authorities = (List<String>) claims.get("authorities");
-					UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
-							authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-					SecurityContextHolder.getContext().setAuthentication(auth);
+				if (claims.get("authorities") != null) {
+					setAuthentication(claims);
 				} else {
 					SecurityContextHolder.clearContext();
 				}
-			} else {
+			}else {
 				SecurityContextHolder.clearContext();
 			}
 			chain.doFilter(request, response);
 		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, "잘못된 토큰");
-			return;
+			e.printStackTrace();
 		}
 	}	
-
+	//토큰 존재 확인
+	private boolean checkJWToken(HttpServletRequest request, HttpServletResponse res) {
+		String authenticationHeader = request.getHeader(HEADER);
+		if (authenticationHeader == null)
+			return false;
+		return true;
+	}
+	
+	//존재하는 경우 해독 및 유효성을 검사
 	private Claims validateToken(HttpServletRequest request) {
 		String jwtToken = request.getHeader(HEADER);
-		return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
+		return getAllClaimsFromToken(jwtToken);
 	}
+	
+	 private Claims getAllClaimsFromToken(String token) {
+	        return Jwts.parser()
+	                .setSigningKey(SECRET.getBytes())
+	                .parseClaimsJws(token)
+	                .getBody();
+	    }
+	 
+	private void setAuthentication(Claims claims) {
+		@SuppressWarnings("unchecked")
+		List<String> authorities = (List<String>) claims.get("authorities");
+
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
+				authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+		SecurityContextHolder.getContext().setAuthentication(auth);
+
+	}
+
+
 }

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,8 +30,9 @@ public class AdminController {
 	AdminService adminService;
 	
 	@PostMapping("/login")
-	public Map<String, Object> adminLogin( @RequestBody AdminModel adminModel ) throws Exception {
-		logger.info("/admin/login 실행됨 " + adminModel.getAdmin_id());
+	public Map<String, Object> adminLogin( 
+			@RequestBody AdminModel adminModel	) throws Exception
+	{	logger.info("/admin/login 실행됨 " + adminModel.getAdmin_id());
 		
 		String admin_id = adminModel.getAdmin_id();
 		String admin_pwd = adminModel.getAdmin_pwd();
@@ -44,19 +46,20 @@ public class AdminController {
 	
 	@GetMapping("/info")
 	public List<AdminModel> adminInfo( 
-			@RequestParam(value="user_name") String user_name,
-			@RequestParam(value="adminName") String adminName
-			) throws Exception {
-		logger.info("/info 실행됨.");
+			@RequestHeader("Authorization") String auth,
+			@RequestParam("admin_name") String admin_name) throws Exception
+	{	logger.info("/info 실행됨.");
+		
+		if (admin_name == null)
+		{ throw new CustomException(ErrorTypeEnum.missing_parameter); } 
 		
 		Map<String, Object> param = Map.of(
 				"wantColumn", "user_id",
 				"wantColumn2", "type",
 				"type", 3
-				);
+		);
 		
 		List<AdminModel> adminModel = adminService.getAdminInfo(param);
-
 		return adminModel;
 	}
 	

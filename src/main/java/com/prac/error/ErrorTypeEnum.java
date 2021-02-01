@@ -9,7 +9,8 @@ public enum ErrorTypeEnum {
 	
 	missing_parameter(2001, "필수 파라미터가 누락되었습니다."),
 	
-	missing_token(3001, "잘못된 토큰입니다.");
+	access_is_denined(3001, "접근권한이 없습니다.");
+
 
 	public int errorCode;
 	public String message;

@@ -19,15 +19,6 @@ public class CustomException extends RuntimeException{
 			errorType.message = customMessage;
 		}
 	}
-
-	public CustomException(ErrorTypeEnum type, String customMessage, Throwable ex) {
-		super(ex);
-		
-		errorType = type;
-		if (customMessage != null) {
-			errorType.message = customMessage;
-		}
-	}
 	
 	public ErrorTypeEnum getErrorType() {
 		return errorType;

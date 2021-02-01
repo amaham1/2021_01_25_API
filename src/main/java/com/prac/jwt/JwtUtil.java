@@ -13,7 +13,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
-public class JwtUtil {
+public class JwtUtil  {
 	
 	private String SECRET ="mySecretKey";
 	
@@ -50,7 +50,7 @@ public class JwtUtil {
 	
 	public String getJwtForUser(String user_id) {
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList("ROLE_user");
+				.commaSeparatedStringToAuthorityList("ROLE_User");
 		Claims claim = Jwts.claims();
 		claim.put("type", "User");
 		claim.put("authorities", grantedAuthorities.stream()	.map(GrantedAuthority::getAuthority).collect(Collectors.toList()));

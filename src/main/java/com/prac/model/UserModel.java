@@ -12,6 +12,7 @@ public class UserModel {
 	
 	private String user_id,
 						user_pwd,
+						user_type,
 						user_name,
 						user_phone_num,
 						create_dt;
