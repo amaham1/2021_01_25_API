@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsUtils;
 
 import com.prac.jwt.JwtAuthenticationEntryPoint;
 import com.prac.jwt.JwtAuthenticationFilter;
@@ -24,6 +25,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
+			.cors().and()
 			.addFilterAfter(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests()
 			.antMatchers("/admin/login"
@@ -31,6 +33,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					, "/test"
 					, "/test/*")
 			.permitAll()
+			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 			.anyRequest().authenticated();
 	}
 }
