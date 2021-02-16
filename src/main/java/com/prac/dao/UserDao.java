@@ -19,17 +19,18 @@ public class UserDao {
     SqlSessionTemplate SqlSessionTemplate;
 	
 	public boolean checkUserId(String user_id) throws Exception
-	{	logger.info("UserDAO - checkUserId 실행됨 " + user_id);
+	{	logger.info("UserDao - checkUserId 실행됨 " + user_id);
 		return (int) SqlSessionTemplate.selectOne("checkUserId", user_id) > 0;
 	}
 	
 	public String getUserPassword(String user_pwd) throws Exception 
-	{	logger.info("UserDAO - getUserPassword 실행됨 " + user_pwd);
+	{	logger.info("UserDao - getUserPassword 실행됨 " + user_pwd);
 		return SqlSessionTemplate.selectOne("getUserPassword", user_pwd);
 	}
 	
 	public List<UserModel> getUserInfo(Map<String, Object> param) throws Exception 
-	{	logger.info("UserDAO - getUserInfo 실행됨 " + param);
+	{	logger.info("UserDao - getUserInfo 실행됨 " + param);
 		return  SqlSessionTemplate.selectList("getUserInfo", param);
 	}
+	
 }

@@ -28,13 +28,13 @@ public class UserService {
 	@Autowired
 	JwtUtil jwtUtil;
 	
-	public Map<String, Object> userLogin(UserModel userModel) throws Exception
-	{	logger.info("UserService - userLogin 실행됨 " + userModel.getUser_id());
+	public Map<String, Object> userLogin(UserModel userModel) throws Exception{
+		logger.info("UserService - userLogin 실행됨 " + userModel.getUser_id());
 	
 		String user_id = userModel.getUser_id();
 		String first_user_pwd = userModel.getUser_pwd();
 		String second_user_pwd = userDao.getUserPassword(user_id);
-
+		
 		//User 계정 유효성 체크
 		boolean userIdCheck = userDao.checkUserId(user_id);
 		boolean userPwdCheck =  passwordEncoder.comparePassWord(first_user_pwd, second_user_pwd);
@@ -45,18 +45,19 @@ public class UserService {
 		
 		//토큰 생성
 		String token = jwtUtil.getJwtForAdmin(user_id);
-		//String type =jwtUtil.getTypeFromToken(token);
+		String type =jwtUtil.getTypeFromToken(token);
 		Map<String, Object> param = Map.of(
-				"token", token//,  "type" , type
+				"token", token,  "type" , type
 		);
 		
 		return param;
 	}
 	
-	public List<UserModel> getUserInfo(Map<String, Object> param) throws Exception 
-	{	logger.info("UserService - getUserInfo 실행됨 " + param);
+	public List<UserModel> getUserInfo(Map<String, Object> param) throws Exception {	
+		logger.info("UserService - getUserInfo 실행됨 " + param);
 	
 		List<UserModel> userModel = userDao.getUserInfo(param);
 		return userModel;
 	}
+
 }
