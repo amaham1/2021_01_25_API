@@ -7,10 +7,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseModel {
 
-	private int resultCode;
-	private String description;
-	private String res;
+    private int resultCode;
+    private String description;
+    
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Object page;
+
+	@Override
+    public String toString() {
+    	return "code : " + resultCode + ", desc : " + description;
+    }
 }
+
