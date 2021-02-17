@@ -35,7 +35,7 @@ public class GoodsController extends BaseController{
 	
 	@GetMapping("/getgoodslist")
 	public BaseModel getGoosList(GoodsModel goodsModel) throws Exception
-	{	logger.info("/goods/getgoodslist 실행됨 ");
+	{	logger.info("/goods/getgoodslist 실행됨 " + goodsModel.getFarm_name());
 		BodyModel body = new BodyModel();
 
 		List<GoodsModel> goodsList = goodsService.getGoodsList(goodsModel);

@@ -24,16 +24,22 @@
 
 	<select id="getGoodsList" parameterType="hashMap" resultType="com.prac.model.GoodsModel">
 		SELECT
-			goods_name
-			, goods_price
-			, goods_desc
-			, DATE_FORMAT(deliver_possible_dt, '%Y-%m-%d %H:%i') AS deliver_possible_dt
-			, DATE_FORMAT(create_dt, '%Y-%m-%d %H:%i') AS create_dt
-			, goods_uploader
+			farm_name
+			, gl.goods_name
+			, gl.goods_price
+			, gl.goods_desc
+			, DATE_FORMAT(gl.deliver_possible_dt, '%Y-%m-%d %H:%i') AS deliver_possible_dt
+			, DATE_FORMAT(gl.create_dt, '%Y-%m-%d %H:%i') AS create_dt
+			, gl.goods_uploader
 		FROM 
-			goods_list
+			goods_list AS gl
+		LEFT JOIN farm_list AS fl
+			ON fl.farm_name = gl.goods_uploader
 		WHERE
 			delete_dt IS NULL
+			<if test="farm_name != null and farm_name !=''">
+			AND farm_name LIKE CONCAT('%', #{farm_name}, '%')
+			</if>
 			<if test="goods_name != null and goods_name !=''">
 			AND goods_name LIKE CONCAT('%', #{goods_name}, '%')
 			</if>
