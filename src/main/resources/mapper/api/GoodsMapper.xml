@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="GoodsMapper">
+	<insert id="postGoods" parameterType="hashMap">
+		INSERT INTO goods_list
+		(
+			goods_name
+			, goods_price
+			, goods_desc
+			, deliver_possible_dt
+			, create_dt
+			, goods_uploader
+		)
+		VALUES
+		(
+			#{goods_name}
+			, #{goods_price}
+			, #{goods_desc}
+			, #{deliver_possible_dt}
+			, NOW()
+			, #{goods_uploader}
+		)
+	</insert>
+
 	<select id="getGoodsList" parameterType="hashMap" resultType="com.prac.model.GoodsModel">
 		SELECT
 			goods_name
@@ -13,5 +34,8 @@
 			goods_list
 		WHERE
 			delete_dt IS NULL
+			<if test="goods_name != null and goods_name !=''">
+			AND goods_name LIKE CONCAT('%', #{goods_name}, '%')
+			</if>
 	</select>
 </mapper>

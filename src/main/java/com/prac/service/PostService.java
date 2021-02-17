@@ -18,17 +18,18 @@ public class PostService {
 	@Autowired
 	PostDao postDao;
 	
-	public void setPoster(PostModel postModel) throws Exception {
+	public int setPoster(PostModel postModel) throws Exception {
 		logger.info("PostService - setPost 실행됨");
 		
 		Map<String, Object> param = Map.of(
 				"board_title", postModel.getBoard_title()
 				, "board_content", postModel.getBoard_content()
 		);
-		postDao.setPoster(param);
+		return postDao.setPoster(param);
 	}
 	
 	public List<PostModel> getPoster(Map<String, Object> param) throws Exception {
+		logger.info("PostService - getPoster 실행됨");
 		return postDao.getPoster(param);
 	}
 }

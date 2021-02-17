@@ -15,6 +15,5 @@ public class GoodsModel {
 						, goods_desc
 						, deliver_possible_dt
 						, create_dt
-						, delete_dt
 						, goods_uploader;
 }

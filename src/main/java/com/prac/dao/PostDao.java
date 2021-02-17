@@ -18,10 +18,10 @@ public class PostDao {
 	@Autowired
     SqlSessionTemplate SqlSessionTemplate;
 	
-	public void setPoster(Map<String, Object> param) throws Exception
+	public int setPoster(Map<String, Object> param) throws Exception
 	{
 		logger.info("PostDao - setPoster 실행됨 ");
-		SqlSessionTemplate.insert("setPoster", param);
+		return SqlSessionTemplate.insert("setPoster", param);
 	}
 	
 	public List<PostModel> getPoster(Map<String, Object> param) throws Exception
