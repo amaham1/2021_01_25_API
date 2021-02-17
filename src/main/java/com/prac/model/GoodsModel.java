@@ -15,11 +15,5 @@ public class GoodsModel {
 						, goods_desc
 						, deliver_possible_dt
 						, create_dt
-						, goods_uploader
-						, start_goods_price
-						, end_goods_price
-						, start_create_dt
-						, end_create_dt
-						, farm_name
-						;
+						, goods_uploader;
 }
