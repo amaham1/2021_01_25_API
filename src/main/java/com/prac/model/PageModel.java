@@ -7,11 +7,10 @@ import lombok.Setter;
 @Setter
 public class PageModel {
 
-	int total;
-    int page;
-    int count;
-    int pageIdx;
-    int limit;
-    int totalPage;
-	
+	private int total
+				, page
+				, count
+				, pageIdx
+				, limit
+				, totalPage;
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="GoodsMapper">
+	<!-- postGoods -->
 	<insert id="postGoods" parameterType="hashMap">
 		INSERT INTO goods_list
 		(
@@ -21,14 +22,16 @@
 			, #{goods_uploader}
 		)
 	</insert>
-
-	<select id="getGoodsList" parameterType="hashMap" resultType="com.prac.model.GoodsModel">
+	<!-- postGoods -->
+	
+	<!-- getGoodsList -->
+	<sql id="SQLgetGoodsList">
 		SELECT
 			farm_name
 			, gl.goods_name
 			, gl.goods_price
 			, gl.goods_desc
-			, DATE_FORMAT(gl.deliver_possible_dt, '%Y-%m-%d %H:%i') AS deliver_possible_dt
+			, DATE_FORMAT(gl.deliver_possible_dt, '%Y-%m-%d') AS deliver_possible_dt
 			, DATE_FORMAT(gl.create_dt, '%Y-%m-%d %H:%i') AS create_dt
 			, gl.goods_uploader
 		FROM 
@@ -43,5 +46,14 @@
 			<if test="goods_name != null and goods_name !=''">
 			AND goods_name LIKE CONCAT('%', #{goods_name}, '%')
 			</if>
+	</sql>
+	<select id="getGoodsList" parameterType="hashMap" resultType="com.prac.model.GoodsModel">
+		<include refid="SQLgetGoodsList"/>
 	</select>
+	<select id="getGoodsListCnt" parameterType="hashMap" resultType="Integer">
+		SELECT
+			COUNT(dddw.farm_name)
+		FROM (<include refid="SQLgetGoodsList"/>) AS dddw
+	</select>
+	<!-- getGoodsList -->
 </mapper>
