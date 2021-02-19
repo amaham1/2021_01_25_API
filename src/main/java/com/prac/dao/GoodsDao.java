@@ -22,15 +22,14 @@ public class GoodsDao {
 		logger.info("GoodsDao - postGoods 실행됨");
 		return sqlSessionTemplate.insert("postGoods", goodsModel);
 	}
-	
-	public List<GoodsModel> getGoodsList(Map<String, String> param) throws Exception {
+
+	public List<GoodsModel> getGoodsList(Map<String, Object> param) throws Exception {
 		logger.info("GoodsDao - getGoodsList 실행됨");
 		return sqlSessionTemplate.selectList("getGoodsList", param);
 	}
-	
-	public int getGoodsListCnt(Map<String, String> param) throws Exception {
+
+	public int getGoodsListCnt(Map<String, Object> param) throws Exception {
 		logger.info("GoodsDao - getGoodsListCnt 실행됨");
-		
 		return (int)sqlSessionTemplate.selectOne("getGoodsListCnt", param);
 	}
 }

@@ -3,6 +3,8 @@ package com.prac.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,9 @@ public class GoodsService {
 		return goodsDao.postGoods(goodsModel);
 	}
 	
-	public List<GoodsModel> getGoodsList(Map<String, String> param, PageModel pageModel) throws Exception {
+	public List<GoodsModel> getGoodsList(Map<String, Object> param, PageModel pageModel) throws Exception {
 		logger.info("GoodsService - getGoodsList 실행됨");
-
-		pageModel.setTotal(goodsDao.getGoodsListCnt(param));
+		param = PropertyUtils.describe(pageModel);
 		return goodsDao.getGoodsList(param);
 	}
 }

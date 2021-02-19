@@ -3,7 +3,7 @@ package com.prac.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Maps;
+import com.prac.dao.GoodsDao;
 import com.prac.model.BaseModel;
 import com.prac.model.BodyModel;
 import com.prac.model.GoodsModel;
@@ -29,6 +29,9 @@ public class GoodsController extends BaseController{
 	
 	@Autowired
 	GoodsService goodsService;
+	
+	@Autowired
+	GoodsDao goodsDao;
 	
 	@PostMapping("/postgoods") 
 	public BaseModel postGoods(@RequestBody GoodsModel goodsModel) throws Exception
@@ -47,11 +50,11 @@ public class GoodsController extends BaseController{
 		BodyModel body = new BodyModel();
 		PageModel pageModel = PagingUtils.page(page, count);
 		PagingUtils.setTotalPage(pageModel);
-		Map<String, String> param = BeanUtils.describe(goodsModel);
-		BeanUtils.describe(pageModel);
+		Map<String, Object> param = PropertyUtils.describe(pageModel);
+		pageModel.setTotal(goodsDao.getGoodsListCnt(param));
+
 		
 		List<GoodsModel> goodsList = goodsService.getGoodsList(param, pageModel);
-		
 		body.setBody(goodsList);
 		return pageOk(body, pageModel);
 	}
