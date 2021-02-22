@@ -46,6 +46,25 @@
 			<if test="goods_name != null and goods_name !=''">
 			AND gl.goods_name LIKE CONCAT('%', #{goods_name}, '%')
 			</if>
+			<if test="start_goods_price != null and start_goods_price !=''">
+			AND gl.goods_price >= #{start_goods_price}
+			</if>
+			<if test="end_goods_price != null and end_goods_price !=''">
+			<![CDATA[
+			AND gl.goods_price <= #{end_goods_price}
+			]]>
+			</if>
+			<if test="deliver_possible_dt != null and deliver_possible_dt !=''">
+			AND gl.deliver_possible_dt >= #{deliver_possible_dt}
+			</if>
+			<if test="start_create_dt != null and start_create_dt !=''">
+			AND gl.create_dt >= #{start_create_dt}
+			</if>
+			<if test="end_create_dt != null and end_create_dt !=''">
+			<![CDATA[
+			AND gl.create_dt <= #{end_create_dt}
+			]]>
+			</if>
 		ORDER BY gl.create_dt DESC
 	</sql>
 	
