@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Maps;
 import com.prac.dao.GoodsDao;
 import com.prac.model.GoodsModel;
 import com.prac.model.PageModel;
@@ -25,9 +27,14 @@ public class GoodsService {
 		return goodsDao.postGoods(goodsModel);
 	}
 	
-	public List<GoodsModel> getGoodsList(Map<String, Object> param, PageModel pageModel) throws Exception {
+	public List<GoodsModel> getGoodsList(GoodsModel goodsModel, PageModel pageModel) throws Exception {
 		logger.info("GoodsService - getGoodsList 실행됨");
-		param = PropertyUtils.describe(pageModel);
+		
+		Map<String, Object> param = Maps.newHashMap();
+		param.putAll(PropertyUtils.describe(goodsModel));
+		param.putAll(PropertyUtils.describe(pageModel));
+		
+		pageModel.setTotal(goodsDao.getGoodsListCnt(param));
 		return goodsDao.getGoodsList(param);
 	}
 }

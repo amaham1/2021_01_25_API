@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Maps;
 import com.prac.dao.GoodsDao;
 import com.prac.model.BaseModel;
 import com.prac.model.BodyModel;
@@ -50,11 +51,8 @@ public class GoodsController extends BaseController{
 		BodyModel body = new BodyModel();
 		PageModel pageModel = PagingUtils.page(page, count);
 		PagingUtils.setTotalPage(pageModel);
-		Map<String, Object> param = PropertyUtils.describe(pageModel);
-		pageModel.setTotal(goodsDao.getGoodsListCnt(param));
-
 		
-		List<GoodsModel> goodsList = goodsService.getGoodsList(param, pageModel);
+		List<GoodsModel> goodsList = goodsService.getGoodsList(goodsModel, pageModel);
 		body.setBody(goodsList);
 		return pageOk(body, pageModel);
 	}
