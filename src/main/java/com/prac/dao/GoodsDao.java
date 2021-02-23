@@ -32,4 +32,9 @@ public class GoodsDao {
 		logger.info("GoodsDao - getGoodsListCnt 실행됨");
 		return (int)sqlSessionTemplate.selectOne("getGoodsListCnt", param);
 	}
+	
+	public GoodsModel getGoodsListDetail(Map<String, Object> param) throws Exception {
+		logger.info("GoodsDao - getGoodsDeatil 실행됨");
+		return (GoodsModel)sqlSessionTemplate.selectOne("getGoodsDeatil", param);
+	}
 }

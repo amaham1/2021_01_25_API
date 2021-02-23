@@ -30,8 +30,7 @@ public class AdminController {
 	AdminService adminService;
 	
 	@PostMapping("/login")
-	public Map<String, Object> adminLogin( 
-			@RequestBody AdminModel adminModel	) throws Exception
+	public Map<String, Object> adminLogin( @RequestBody AdminModel adminModel ) throws Exception
 	{	logger.info("/admin/login 실행됨 " + adminModel.getAdmin_id());
 		
 		String admin_id = adminModel.getAdmin_id();

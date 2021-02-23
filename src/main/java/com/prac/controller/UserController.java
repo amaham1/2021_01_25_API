@@ -28,8 +28,8 @@ public class UserController {
 	UserService userService;
 
 	@PostMapping("/login")
-	public Map<String, Object> login( @RequestBody UserModel userModel) throws Exception {
-		logger.info("/user/login 실행됨 " + userModel.getUser_id());
+	public Map<String, Object> login( @RequestBody UserModel userModel) throws Exception 
+	{	logger.info("/user/login 실행됨 " + userModel.getUser_id());
 		
 		String user_id = userModel.getUser_id();
 		String user_pwd = userModel.getUser_pwd();
@@ -44,8 +44,8 @@ public class UserController {
 	@GetMapping("/info")
 	public List<UserModel> getUserInfo(
 			@RequestParam(value = "user_name", required = false, defaultValue = "") String user_name,
-			@RequestParam(value = "user_phone_num", required = false , defaultValue = "") String user_phone_num) throws Exception {
-		logger.info("/user/info 실행됨 ");
+			@RequestParam(value = "user_phone_num", required = false , defaultValue = "") String user_phone_num) throws Exception 
+	{	logger.info("/user/info 실행됨 ");
 		
 		Map<String, Object> param = Map.of(
 				"user_name", user_name, "user_phone_num", user_phone_num

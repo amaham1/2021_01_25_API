@@ -3,7 +3,6 @@ package com.prac.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,7 @@ public class GoodsService {
 	}
 	
 	public List<GoodsModel> getGoodsList(GoodsModel goodsModel, PageModel pageModel) throws Exception {
-		logger.info("GoodsService - getGoodsList 실행됨");
+		logger.info("GoodsService - getGoodsList 실행됨 ");
 		
 		Map<String, Object> param = Maps.newHashMap();
 		param.putAll(PropertyUtils.describe(goodsModel));
@@ -36,5 +35,14 @@ public class GoodsService {
 		
 		pageModel.setTotal(goodsDao.getGoodsListCnt(param));
 		return goodsDao.getGoodsList(param);
+	}
+	
+	public GoodsModel getGoodsDetail(GoodsModel goodsModel) throws Exception {
+		logger.info("GoodsService - getGoodsDetail 실행됨 ");
+		
+		Map<String, Object> param = Maps.newHashMap();
+		param.putAll(PropertyUtils.describe(goodsModel));
+		
+		return goodsDao.getGoodsListDetail(param);
 	}
 }

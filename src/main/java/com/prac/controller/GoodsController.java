@@ -1,9 +1,6 @@
 package com.prac.controller;
 
 import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Maps;
 import com.prac.dao.GoodsDao;
 import com.prac.model.BaseModel;
 import com.prac.model.BodyModel;
@@ -39,7 +35,7 @@ public class GoodsController extends BaseController{
 	{ 	logger.info("/goods/postgoods 실행됨 ");
 		BodyModel body = new BodyModel();
 	
-		body.setBody(goodsService.postGoods(goodsModel) == 1 ? "insert succcess" : "error");
+		body.setBody(goodsService.postGoods(goodsModel) == 1 ? "insert success" : "error");
 		return ok(body);
 	}
 	
@@ -55,5 +51,17 @@ public class GoodsController extends BaseController{
 		List<GoodsModel> goodsList = goodsService.getGoodsList(goodsModel, pageModel);
 		body.setBody(goodsList);
 		return pageOk(body, pageModel);
+	}
+	
+	@GetMapping("/getgoodsdetail")
+	public BaseModel getGoodsDetail(GoodsModel goodsModel) throws Exception 
+	{	logger.info("/getgoodsdetail 실행됨 ");
+		BodyModel body = new BodyModel();
+		
+		logger.info(goodsModel.getGoods_id());
+		
+		GoodsModel goodsDetail = goodsService.getGoodsDetail(goodsModel);
+		body.setBody(goodsDetail);
+		return ok(body);
 	}
 }

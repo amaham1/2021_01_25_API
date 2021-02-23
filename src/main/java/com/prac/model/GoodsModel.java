@@ -12,6 +12,7 @@ public class GoodsModel {
 	
 	private String goods_name
 						, goods_price
+						, goods_id
 						, goods_desc
 						, deliver_possible_dt
 						, create_dt
@@ -20,5 +21,9 @@ public class GoodsModel {
 						, end_goods_price
 						, start_create_dt
 						, end_create_dt
-						, farm_name;
+						, farm_name
+						, farm_phone_num
+						, farm_location
+						, farm_photo
+						;
 }

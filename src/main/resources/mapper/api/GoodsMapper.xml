@@ -24,16 +24,20 @@
 	</insert>
 	<!-- postGoods -->
 	
-	<!-- getGoodsList -->
+	<!-- SQLgetGoodsList -->
 	<sql id="SQLgetGoodsList">
 		SELECT
 			fl.farm_name
 			, gl.goods_name
 			, gl.goods_price
 			, gl.goods_desc
+			, gl.goods_id
 			, DATE_FORMAT(gl.deliver_possible_dt, '%Y-%m-%d') AS deliver_possible_dt
 			, DATE_FORMAT(gl.create_dt, '%Y-%m-%d %H:%i') AS create_dt
 			, gl.goods_uploader
+			, fl.farm_phone_num
+			, fl.farm_location
+			, fl.farm_photo
 		FROM 
 			goods_list AS gl
 		LEFT JOIN farm_list AS fl
@@ -62,14 +66,15 @@
 			</if>
 			<if test="end_create_dt != null and end_create_dt !=''">
 			<![CDATA[
-			AND gl.create_dt <= #{end_create_dt}
+			AND gl.create_dt <= DATE_ADD(#{end_create_dt}, INTERVAL 1 DAY)
 			]]>
 			</if>
-		ORDER BY gl.create_dt DESC
 	</sql>
 	
+	<!-- getGoodsList -->
 	<select id="getGoodsList" parameterType="hashMap" resultType="com.prac.model.GoodsModel">
 		<include refid="SQLgetGoodsList"/>
+		ORDER BY gl.create_dt DESC
 		LIMIT #{limit}, #{count}
 	</select>
 	<select id="getGoodsListCnt" parameterType="hashMap" resultType="Integer">
@@ -78,4 +83,11 @@
 		FROM (<include refid="SQLgetGoodsList"/>) AS dddw
 	</select>
 	<!-- getGoodsList -->
+	
+	<!-- getGoodsDetail -->
+	<select id="getGoodsDeatil" parameterType="hashMap" resultType="com.prac.model.GoodsModel">
+		<include refid="SQLgetGoodsList"/>
+		AND goods_id = #{goods_id}
+	</select>
+	<!-- getGoodsDetail -->
 </mapper>
